@@ -59,13 +59,13 @@ interface PublicationState {
     length: number;
   };
   setSmolAskConfig: (smolAskConfig: {
+    length: number;
     choices: [
       action: string,
       property: string,
       condition: string,
       chains: string
     ];
-    length: number;
   }) => void;
   resetSmolAskConfig: () => void;
 }

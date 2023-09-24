@@ -35,6 +35,9 @@ const Editor: FC = () => {
     (state) => state.setPublicationContent
   );
   const showPollEditor = usePublicationStore((state) => state.showPollEditor);
+  const showSmolAskEditor = usePublicationStore(
+    (state) => state.showSmolAskEditor
+  );
   const attachments = usePublicationStore((state) => state.attachments);
   const { handleUploadAttachments } = useUploadAttachments();
   const [editor] = useLexicalComposerContext();
@@ -75,6 +78,8 @@ const Editor: FC = () => {
           <div className="pointer-events-none absolute top-[65px] whitespace-nowrap px-5 text-gray-400">
             {showPollEditor ? (
               <Trans>Ask a question...</Trans>
+            ) : showSmolAskEditor ? (
+              <Trans>Make a smol ask...</Trans>
             ) : (
               <Trans>What's happening?</Trans>
             )}

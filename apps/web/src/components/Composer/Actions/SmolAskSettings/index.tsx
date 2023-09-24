@@ -1,4 +1,4 @@
-import { Bars3BottomLeftIcon } from '@heroicons/react/24/solid';
+import { SparklesIcon } from '@heroicons/react/24/solid';
 import { Tooltip } from '@lenster/ui';
 import { t } from '@lingui/macro';
 import { motion } from 'framer-motion';
@@ -17,7 +17,7 @@ const SmolAskSettings: FC = () => {
   );
 
   return (
-    <Tooltip placement="top" content={t`Poll`}>
+    <Tooltip placement="top" content={t`Smol ask`}>
       <motion.button
         whileTap={{ scale: 0.9 }}
         type="button"
@@ -25,9 +25,9 @@ const SmolAskSettings: FC = () => {
           resetSmolAskConfig();
           setSmolAskEditor(!showSmolAskEditor);
         }}
-        aria-label="Poll"
+        aria-label="Smol ask"
       >
-        <Bars3BottomLeftIcon className="text-brand h-5 w-5" />
+        <SparklesIcon className="text-brand h-5 w-5" />
       </motion.button>
     </Tooltip>
   );

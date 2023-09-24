@@ -1,6 +1,6 @@
-import { IS_MAINNET, SNAPSHOR_RELAY_WORKER_URL } from '@lenster/data/constants';
-import { Localstorage } from '@lenster/data/storage';
-import axios from 'axios';
+import { IS_MAINNET } from '@lenster/data/constants';
+// import { Localstorage } from '@lenster/data/storage';
+// import axios from 'axios';
 import { useAppStore } from 'src/store/app';
 import { usePublicationStore } from 'src/store/publication';
 
@@ -14,26 +14,33 @@ const useCreateSmolAsk = (): [
   const publicationContent = usePublicationStore(
     (state) => state.publicationContent
   );
+  const response = JSON.stringify({
+    description: publicationContent,
+    choices: smolAskConfig.choices,
+    length: smolAskConfig.length,
+    isMainnet: IS_MAINNET
+  });
 
   const createSmolAsk = async (): Promise<CreateSmolAskResponse> => {
     try {
-      const response = await axios.post(
-        `${SNAPSHOR_RELAY_WORKER_URL}/createSmolAsk`,
-        {
-          title: `Smol ask by @${currentProfile?.handle}`,
-          description: publicationContent,
-          choices: smolAskConfig.choices,
-          length: smolAskConfig.length,
-          isMainnet: IS_MAINNET
-        },
-        {
-          headers: {
-            'X-Access-Token': localStorage.getItem(Localstorage.AccessToken)
-          }
-        }
-      );
+      //  TODO REPLACE with Phat Contract
+      // const response = await axios.post(
+      //   `${SNAPSHOR_RELAY_WORKER_URL}/createSmolAsk`,
+      //   {
+      //     title: `Smol ask by @${currentProfile?.handle}`,
+      //     description: publicationContent,
+      //     choices: smolAskConfig.choices,
+      //     length: smolAskConfig.length,
+      //     isMainnet: IS_MAINNET
+      //   },
+      //   {
+      //     headers: {
+      //       'X-Access-Token': localStorage.getItem(Localstorage.AccessToken)
+      //     }
+      //   }
+      // );
 
-      return `${publicationContent}\n\n${response.data.snapshotUrl}`;
+      return `Smol ask by @${currentProfile?.handle}\n\n${response}`;
     } catch (error) {
       throw error;
     }

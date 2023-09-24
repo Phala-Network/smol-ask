@@ -1,5 +1,5 @@
 import { ClockIcon } from '@heroicons/react/24/outline';
-import { Bars3BottomLeftIcon, XCircleIcon } from '@heroicons/react/24/solid';
+import { SparklesIcon, XCircleIcon } from '@heroicons/react/24/solid';
 import { Button, Card, Input, Modal, Tooltip } from '@lenster/ui';
 import { Plural, t, Trans } from '@lingui/macro';
 import type { FC } from 'react';
@@ -23,7 +23,7 @@ const SmolAskEditor: FC = () => {
     <Card className="m-5 px-5 py-3" forceRounded>
       <div className="flex items-center justify-between">
         <div className="flex items-center space-x-2 text-sm">
-          <Bars3BottomLeftIcon className="text-brand h-4 w-4" />
+          <SparklesIcon className="text-brand h-4 w-4" />
           <b>Smol ask</b>
         </div>
         <div className="flex items-center space-x-3">
@@ -31,7 +31,7 @@ const SmolAskEditor: FC = () => {
             variant="primary"
             size="sm"
             icon={<ClockIcon className="h-4 w-4" />}
-            onClick={() => setShowSmolAskEditor(true)}
+            onClick={() => setShowSmolAskLengthModal(true)}
             outline
           >
             {smolAskConfig.length}{' '}

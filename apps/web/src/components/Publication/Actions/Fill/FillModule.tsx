@@ -327,13 +327,7 @@ const FillModule: FC<FillModuleProps> = ({
       <div className="p-5">
         {fillModule?.followerOnly ? (
           <div className="pb-5">
-            <FillWarning
-              handle={formatHandle(publication?.profile?.handle)}
-              isSuperFollow={
-                publication?.profile?.followModule?.__typename ===
-                'FeeFollowModuleSettings'
-              }
-            />
+            <FillWarning handle={formatHandle(publication?.profile?.handle)} />
           </div>
         ) : null}
         <div className="mb-4 space-y-1.5">
