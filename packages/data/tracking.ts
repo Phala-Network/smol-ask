@@ -44,6 +44,7 @@ export const PUBLICATION = {
   OPEN_LIKES: 'Open likes modal',
   OPEN_MIRRORS: 'Open mirrors modal',
   OPEN_COLLECTORS: 'Open collectors modal',
+  OPEN_FILLERS: 'Open fillers modal',
   OPEN_GIFS: 'Open GIFs modal',
   ATTACHMENT: {
     IMAGE: {
@@ -57,6 +58,11 @@ export const PUBLICATION = {
   COLLECT_MODULE: {
     OPEN_COLLECT: 'Open collect modal',
     COLLECT: 'Collect publication',
+    OPEN_UNISWAP: 'Open Uniswap'
+  },
+  FILL_MODULE: {
+    OPEN_FILL: 'Open fill modal',
+    FILL: 'Fill smol ask',
     OPEN_UNISWAP: 'Open Uniswap'
   },
   TOKEN_GATED: {
@@ -199,6 +205,7 @@ export enum FollowUnfollowSource {
   LIKES_MODAL = 'likes_modal',
   MIRRORS_MODAL = 'mirrors_modal',
   COLLECTORS_MODAL = 'collectors_modal',
+  FILLERS_MODAL = 'fills_modal',
   FOLLOWERS_MODAL = 'followers_modal',
   FOLLOWING_MODAL = 'following_modal',
   MUTUAL_FOLLOWERS_MODAL = 'mutual_followers_modal',

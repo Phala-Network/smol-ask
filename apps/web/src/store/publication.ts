@@ -46,6 +46,28 @@ interface PublicationState {
   };
   setPollConfig: (pollConfig: { length: number; choices: string[] }) => void;
   resetPollConfig: () => void;
+  showSmolAskEditor: boolean;
+  setShowSmolAskEditor: (showSmolAskEditor: boolean) => void;
+  // TODO: create types
+  smolAskConfig: {
+    choices: [
+      action: string,
+      property: string,
+      condition: string,
+      chains: string
+    ];
+    length: number;
+  };
+  setSmolAskConfig: (smolAskConfig: {
+    choices: [
+      action: string,
+      property: string,
+      condition: string,
+      chains: string
+    ];
+    length: number;
+  }) => void;
+  resetSmolAskConfig: () => void;
 }
 
 export const usePublicationStore = create<PublicationState>((set) => ({
@@ -102,5 +124,20 @@ export const usePublicationStore = create<PublicationState>((set) => ({
   pollConfig: { length: 7, choices: ['', ''] },
   setPollConfig: (pollConfig) => set(() => ({ pollConfig })),
   resetPollConfig: () =>
-    set(() => ({ pollConfig: { length: 1, choices: ['', ''] } }))
+    set(() => ({ pollConfig: { length: 1, choices: ['', ''] } })),
+  showSmolAskEditor: false,
+  setShowSmolAskEditor: (showSmolAskEditor) =>
+    set(() => ({ showSmolAskEditor })),
+  smolAskConfig: {
+    choices: ['SELL', 'ERC20', 'TTL', 'MUMBAI'],
+    length: 2
+  },
+  setSmolAskConfig: (smolAskConfig) => set(() => ({ smolAskConfig })),
+  resetSmolAskConfig: () =>
+    set(() => ({
+      smolAskConfig: {
+        choices: ['SELL', 'ERC20', 'TTL', 'MUMBAI'],
+        length: 2
+      }
+    }))
 }));

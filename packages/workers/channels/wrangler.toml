@@ -1,5 +1,5 @@
 name = "channels"
-main = "src/index.ts"
+main = "src/index.tsx"
 compatibility_date = "2023-01-25"
 keep_vars = true
 node_compat = true

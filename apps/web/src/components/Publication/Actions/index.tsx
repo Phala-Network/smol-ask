@@ -6,6 +6,7 @@ import { usePreferencesStore } from 'src/store/preferences';
 
 import Collect from './Collect';
 import Comment from './Comment';
+import Fill from './Fill';
 import Like from './Like';
 import Mod from './Mod';
 import ShareMenu from './Share';
@@ -25,7 +26,8 @@ const PublicationActions: FC<PublicationActionsProps> = ({
   const gardenerMode = usePreferencesStore((state) => state.gardenerMode);
   const collectModuleType = publication?.collectModule.__typename;
   const canMirror = currentProfile ? publication?.canMirror?.result : true;
-
+  const fillSmolAskModuleType = publication?.collectModule.__typename;
+  // @ts-ignore
   return (
     <span
       className="-ml-2 mt-3 flex flex-wrap items-center gap-x-6 gap-y-1 sm:gap-8"
@@ -46,6 +48,13 @@ const PublicationActions: FC<PublicationActionsProps> = ({
       ) : null}
       {gardenerMode ? (
         <Mod publication={publication} isFullPublication={showCount} />
+      ) : null}
+      {fillSmolAskModuleType !== 'RevertCollectModuleSettings' ? (
+        <Fill
+          publication={publication}
+          showCount={showCount}
+          electedMirror={electedMirror}
+        />
       ) : null}
     </span>
   );

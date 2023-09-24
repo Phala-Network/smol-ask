@@ -79,6 +79,7 @@ import { useState } from 'react';
 import toast from 'react-hot-toast';
 import { OptmisticPublicationType } from 'src/enums';
 import useCreatePoll from 'src/hooks/useCreatePoll';
+import useCreateSmolAsk from 'src/hooks/useCreateSmolAsk';
 import useEthersWalletClient from 'src/hooks/useEthersWalletClient';
 import useHandleWrongNetwork from 'src/hooks/useHandleWrongNetwork';
 import { useAccessSettingsStore } from 'src/store/access-settings';
@@ -94,6 +95,7 @@ import { v4 as uuid } from 'uuid';
 import { useContractWrite, usePublicClient, useSignTypedData } from 'wagmi';
 
 import PollEditor from './Actions/PollSettings/PollEditor';
+import SmolAskEditor from './Actions/SmolAskSettings/SmolAskEditor';
 import Editor from './Editor';
 import Discard from './Post/Discard';
 
@@ -126,6 +128,13 @@ const AccessSettings = dynamic(
 );
 const PollSettings = dynamic(
   () => import('@components/Composer/Actions/PollSettings'),
+  {
+    loading: () => <div className="shimmer mb-1 h-5 w-5 rounded-lg" />
+  }
+);
+
+const SmolAskSettings = dynamic(
+  () => import('@components/Composer/Actions/SmolAskSettings'),
   {
     loading: () => <div className="shimmer mb-1 h-5 w-5 rounded-lg" />
   }
@@ -169,7 +178,11 @@ const NewPublication: FC<NewPublicationProps> = ({ publication }) => {
     showPollEditor,
     setShowPollEditor,
     resetPollConfig,
-    pollConfig
+    pollConfig,
+    showSmolAskEditor,
+    setShowSmolAskEditor,
+    resetSmolAskConfig,
+    smolAskConfig
   } = usePublicationStore();
 
   // Transaction persist store
@@ -202,6 +215,7 @@ const NewPublication: FC<NewPublicationProps> = ({ publication }) => {
   const publicClient = usePublicClient();
   const { data: walletClient } = useEthersWalletClient();
   const [createPoll] = useCreatePoll();
+  const [createSmolAsk] = useCreateSmolAsk();
   const handleWrongNetwork = useHandleWrongNetwork();
 
   const isComment = Boolean(publication);
@@ -229,6 +243,8 @@ const NewPublication: FC<NewPublicationProps> = ({ publication }) => {
     setQuotedPublication(null);
     setShowPollEditor(false);
     resetPollConfig();
+    setShowSmolAskEditor(false);
+    resetSmolAskConfig();
     setAttachments([]);
     setVideoThumbnail({
       url: '',
@@ -257,7 +273,8 @@ const NewPublication: FC<NewPublicationProps> = ({ publication }) => {
         attachments.length > 0
           ? attachments.map((attachment) => attachment.original.mimeType)
           : null,
-      publication_has_poll: showPollEditor
+      publication_has_poll: showPollEditor,
+      publication_has_smol_ask: showSmolAskEditor
     };
     Leafwatch.track(
       isComment ? PUBLICATION.NEW_COMMENT : PUBLICATION.NEW_POST,
@@ -744,6 +761,10 @@ const NewPublication: FC<NewPublicationProps> = ({ publication }) => {
         processedPublicationContent = await createPoll();
       }
 
+      if (showSmolAskEditor) {
+        processedPublicationContent = await createSmolAsk();
+      }
+
       const metadata: PublicationMetadataV2Input = {
         version: '2.0.0',
         metadata_id: uuid(),
@@ -864,6 +885,11 @@ const NewPublication: FC<NewPublicationProps> = ({ publication }) => {
       pollConfig.choices.some((choice) => !choice.length)
     : false;
 
+  const isSubmitDiabledBySmolAsk = showSmolAskEditor
+    ? !smolAskConfig.choices.length ||
+      smolAskConfig.choices.some((choice) => !choice.length)
+    : false;
+
   const onDiscardClick = () => {
     setShowNewPostModal(false);
     setShowDiscardModal(false);
@@ -873,6 +899,8 @@ const NewPublication: FC<NewPublicationProps> = ({ publication }) => {
     setPublicationContent('');
     setShowPollEditor(false);
     resetPollConfig();
+    setShowSmolAskEditor(false);
+    resetSmolAskConfig();
     setAttachments([]);
     setVideoThumbnail({
       url: '',
@@ -905,6 +933,7 @@ const NewPublication: FC<NewPublicationProps> = ({ publication }) => {
         </div>
       ) : null}
       {showPollEditor ? <PollEditor /> : null}
+      {showSmolAskEditor ? <SmolAskEditor /> : null}
       {quotedPublication ? (
         <Wrapper className="m-5" zeroPadding>
           <QuotedPublication publication={quotedPublication} isNew />
@@ -942,6 +971,7 @@ const NewPublication: FC<NewPublicationProps> = ({ publication }) => {
             </>
           ) : null}
           <PollSettings />
+          <SmolAskSettings />
         </div>
         <div className="ml-auto pt-2 sm:pt-0">
           <Button
@@ -949,6 +979,7 @@ const NewPublication: FC<NewPublicationProps> = ({ publication }) => {
               isLoading ||
               isUploading ||
               isSubmitDisabledByPoll ||
+              isSubmitDiabledBySmolAsk ||
               videoThumbnail.uploading
             }
             icon={

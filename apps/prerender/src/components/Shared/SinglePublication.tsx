@@ -90,6 +90,9 @@ const SinglePublication: FC<PublicationProps> = ({
         'RevertCollectModuleSettings' ? (
           <div>{collectsCount} Collects</div>
         ) : null}
+        {/*{publication.fillModule.__typename !== 'RevertFillModuleSettings' ? (*/}
+        {/*  <div>{fillCount} Fills</div>*/}
+        {/*) : null}*/}
         <div>{mirrorsCount} Mirrors</div>
         <hr />
       </div>

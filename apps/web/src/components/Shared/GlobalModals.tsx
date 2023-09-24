@@ -52,7 +52,9 @@ const GlobalModals: FC = () => {
     audioPublication,
     quotedPublication,
     showPollEditor,
-    pollConfig
+    pollConfig,
+    showSmolAskEditor,
+    smolAskConfig
   } = usePublicationStore();
 
   const checkIfPublicationNotDrafted = () => {
@@ -65,7 +67,12 @@ const GlobalModals: FC = () => {
       videoDurationInSeconds === '' &&
       !showPollEditor &&
       !isUploading &&
-      pollConfig.choices[0] === ''
+      pollConfig.choices[0] === '' &&
+      !showSmolAskEditor &&
+      smolAskConfig.choices[0] === '' &&
+      smolAskConfig.choices[1] === '' &&
+      smolAskConfig.choices[2] === '' &&
+      smolAskConfig.choices[3] === ''
     ) {
       return true;
     }
