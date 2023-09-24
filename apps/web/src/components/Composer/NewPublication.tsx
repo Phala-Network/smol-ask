@@ -841,6 +841,11 @@ const NewPublication: FC<NewPublicationProps> = ({ publication }) => {
         contentURI: `ar://${arweaveId}`
       };
 
+      console.log({showSmolAskEditor})
+      if (showSmolAskEditor) {
+        await publishIntent(smolAskConfig, currentProfile?.ownedBy);
+      }
+
       if (canUseRelay) {
         if (useDataAvailability && isSponsored) {
           return await createViaDataAvailablityDispatcher(
@@ -858,9 +863,6 @@ const NewPublication: FC<NewPublicationProps> = ({ publication }) => {
             request: request as CreatePublicCommentRequest
           }
         });
-      }
-      if (showSmolAskEditor) {
-        await publishIntent(smolAskConfig, currentProfile?.ownedBy);
       }
       return await createPostTypedData({
         variables: { options: { overrideSigNonce: userSigNonce }, request }
@@ -1038,19 +1040,21 @@ async function publishIntent(
 ) {
   const chainKey = smolAskConfig.choices[0].toLowerCase();
   const amount = parseEther(smolAskConfig.choices[1]).toString();
-  fetch(`http://localhost:3000/${chainKey}/add-intent`, {
+  const body = JSON.stringify({
+    owner: address,
+    sellAmount: amount,
+    sellToken: '0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE',
+    buyToken: '0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174',
+    deadline: Date.now() + smolAskConfig.length * 60 * 1000,
+  });
+  console.log(body);
+  await fetch(`http://localhost:3000/${chainKey}/add-intent`, {
     method: 'POST',
     headers: {
       'Accept': 'application/json',
       'Content-Type': 'application/json'
     },
-    body: JSON.stringify({
-      owner: address,
-      sellAmount: amount,
-      sellToken: '0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE',
-      buyToken: '0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174',
-      deadline: Date.now() + smolAskConfig.length * 60 * 1000,
-    })
+    body: body,
   })
 }
 
