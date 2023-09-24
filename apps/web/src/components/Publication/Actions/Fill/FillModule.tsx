@@ -381,9 +381,9 @@ const FillModule: FC<FillModuleProps> = ({
                 {humanize(count)}{' '}
                 <Plural
                   value={count}
-                  zero="fillor"
-                  one="fillor"
-                  other="fillors"
+                  zero="filler"
+                  one="filler"
+                  other="fillers"
                 />
               </button>
               <Modal

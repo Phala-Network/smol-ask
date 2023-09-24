@@ -129,15 +129,15 @@ export const usePublicationStore = create<PublicationState>((set) => ({
   setShowSmolAskEditor: (showSmolAskEditor) =>
     set(() => ({ showSmolAskEditor })),
   smolAskConfig: {
-    choices: ['SELL', 'ERC20', 'TTL', 'MUMBAI'],
-    length: 2
+    choices: ['SELL', '1 MATIC', 'for USDC', 'on MUMBAI'],
+    length: 1
   },
   setSmolAskConfig: (smolAskConfig) => set(() => ({ smolAskConfig })),
   resetSmolAskConfig: () =>
     set(() => ({
       smolAskConfig: {
-        choices: ['SELL', 'ERC20', 'TTL', 'MUMBAI'],
-        length: 2
+        choices: ['SELL', '1 MATIC', 'for USDC', 'on MUMBAI'],
+        length: 1
       }
     }))
 }));

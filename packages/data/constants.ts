@@ -5,6 +5,10 @@ import getEnvConfig from './utils/getEnvConfig';
 // Environments
 export const IS_PRODUCTION = process.env.NEXT_PUBLIC_IS_PRODUCTION === 'true';
 
+export const INTENTS_MUMBAI = 'http://localhost:3000/';
+
+export const INTENTS_LINEA = 'http://localhost:4000/';
+
 // Lens Network
 export const LENS_NETWORK = process.env.NEXT_PUBLIC_LENS_NETWORK ?? 'mainnet';
 

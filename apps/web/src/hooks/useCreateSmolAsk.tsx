@@ -1,6 +1,6 @@
-import { IS_MAINNET } from '@lenster/data/constants';
+import { INTENTS_MUMBAI, IS_MAINNET } from '@lenster/data/constants';
 // import { Localstorage } from '@lenster/data/storage';
-// import axios from 'axios';
+import axios from 'axios';
 import { useAppStore } from 'src/store/app';
 import { usePublicationStore } from 'src/store/publication';
 
@@ -21,24 +21,26 @@ const useCreateSmolAsk = (): [
     isMainnet: IS_MAINNET
   });
 
+  const nowMs = Date.now();
+
   const createSmolAsk = async (): Promise<CreateSmolAskResponse> => {
     try {
       //  TODO REPLACE with Phat Contract
-      // const response = await axios.post(
-      //   `${SNAPSHOR_RELAY_WORKER_URL}/createSmolAsk`,
-      //   {
-      //     title: `Smol ask by @${currentProfile?.handle}`,
-      //     description: publicationContent,
-      //     choices: smolAskConfig.choices,
-      //     length: smolAskConfig.length,
-      //     isMainnet: IS_MAINNET
-      //   },
-      //   {
-      //     headers: {
-      //       'X-Access-Token': localStorage.getItem(Localstorage.AccessToken)
-      //     }
-      //   }
-      // );
+      const response = await axios.post(
+        `${INTENTS_MUMBAI}add-intent`,
+        {
+          owner: `${currentProfile?.ownedBy}`,
+          sellAmount: 1000000000000000000,
+          sellToken: 'ommitted',
+          buyToken: 'ommitted',
+          deadline: nowMs + 20000
+        },
+        {
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        }
+      );
 
       return `Smol ask by @${currentProfile?.handle}\n\n${response}`;
     } catch (error) {

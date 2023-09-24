@@ -1,8 +1,5 @@
 import { CheckCircleIcon as CheckCircleIconOutline } from '@heroicons/react/24/outline';
-import {
-  Bars3BottomLeftIcon,
-  CheckCircleIcon
-} from '@heroicons/react/24/solid';
+import { CheckCircleIcon, SparklesIcon } from '@heroicons/react/24/solid';
 import { APP_NAME, SNAPSHOT_SEQUNECER_URL } from '@lenster/data/constants';
 import { Errors } from '@lenster/data/errors';
 import { PUBLICATION } from '@lenster/data/tracking';
@@ -137,7 +134,7 @@ const Choices: FC<ChoicesProps> = ({
         {!isLensterPoll ? (
           <div className="divider flex items-center justify-between px-5 py-3 ">
             <div className="flex items-center space-x-2 text-sm">
-              <Bars3BottomLeftIcon className="h-4 w-4" />
+              <SparklesIcon className="h-4 w-4" />
               <b>{state === 'active' ? t`Current results` : t`Results`}</b>
             </div>
             <New />
@@ -198,7 +195,7 @@ const Choices: FC<ChoicesProps> = ({
         {isLensterPoll ? (
           <div className="flex items-center justify-between border-t px-5 py-3 dark:border-gray-700 ">
             <div className="flex items-center space-x-2 text-xs text-gray-500">
-              <Bars3BottomLeftIcon className="h-4 w-4" />
+              <SparklesIcon className="h-4 w-4" />
               <b>
                 <Trans>Poll</Trans>
               </b>
