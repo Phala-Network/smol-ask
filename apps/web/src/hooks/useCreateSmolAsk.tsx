@@ -4,10 +4,8 @@ import axios from 'axios';
 import { useAppStore } from 'src/store/app';
 import { usePublicationStore } from 'src/store/publication';
 
-type CreateSmolAskResponse = string;
-
 const useCreateSmolAsk = (): [
-  createSmolAsk: () => Promise<CreateSmolAskResponse>
+  createSmolAsk: () => Promise<string>
 ] => {
   const currentProfile = useAppStore((state) => state.currentProfile);
   const smolAskConfig = usePublicationStore((state) => state.smolAskConfig);
@@ -23,7 +21,7 @@ const useCreateSmolAsk = (): [
 
   const nowMs = Date.now();
 
-  const createSmolAsk = async (): Promise<CreateSmolAskResponse> => {
+  const createSmolAsk = async (): Promise<string> => {
     try {
       //  TODO REPLACE with Phat Contract
       const response = await axios.post(

@@ -50,22 +50,12 @@ interface PublicationState {
   setShowSmolAskEditor: (showSmolAskEditor: boolean) => void;
   // TODO: create types
   smolAskConfig: {
-    choices: [
-      action: string,
-      property: string,
-      condition: string,
-      chains: string
-    ];
+    choices: string[];
     length: number;
   };
   setSmolAskConfig: (smolAskConfig: {
     length: number;
-    choices: [
-      action: string,
-      property: string,
-      condition: string,
-      chains: string
-    ];
+    choices: string[];
   }) => void;
   resetSmolAskConfig: () => void;
 }
@@ -129,14 +119,14 @@ export const usePublicationStore = create<PublicationState>((set) => ({
   setShowSmolAskEditor: (showSmolAskEditor) =>
     set(() => ({ showSmolAskEditor })),
   smolAskConfig: {
-    choices: ['SELL', '1 MATIC', 'for USDC', 'on MUMBAI'],
+    choices: ['', ''],
     length: 1
   },
   setSmolAskConfig: (smolAskConfig) => set(() => ({ smolAskConfig })),
   resetSmolAskConfig: () =>
     set(() => ({
       smolAskConfig: {
-        choices: ['SELL', '1 MATIC', 'for USDC', 'on MUMBAI'],
+        choices: ['', ''],
         length: 1
       }
     }))

@@ -35,7 +35,6 @@ const Fill: FC<FillProps> = ({ publication, token, fillAmount }) => {
           whileTap={{ scale: 0.9 }}
           onClick={() => {
             setShowFillModal(true);
-            Leafwatch.track(PUBLICATION.FILL_MODULE.OPEN_FILL);
           }}
           aria-label="Fill smol ask"
         >

@@ -100,50 +100,51 @@ const SmolAskEditor: FC = () => {
       <div className="mt-3 space-y-4">
         <div key={0} className="flex items-center space-x-2 text-sm">
           <Input
-            placeholder={t`ACTION: BUY, SELL, LEND, BORROW`}
+            placeholder={t`CHAIN: MUMBAI, POLYGONZKEVM, LINEA, SCROLL`}
             value={smolAskConfig.choices[0]}
             onChange={(event) => {
-              const newChoices = [...smolAskConfig.choices];
-              newChoices[0] = event.target.value;
-              // @ts-ignore
-              setSmolAskConfig({ ...smolAskConfig, choices: newChoices });
+              const choices = [event.target.value, smolAskConfig.choices[1]];
+              setSmolAskConfig({ ...smolAskConfig, choices });
             }}
+
           />
         </div>
         <div key={1} className="flex items-center space-x-2 text-sm">
           <Input
-            placeholder={t`ASSETS: ERC20, NFT`}
-            value={smolAskConfig.choices[1]}
-            onChange={(event) => {
-              const newChoices = [...smolAskConfig.choices];
-              newChoices[1] = event.target.value;
-              // @ts-ignore
-              setSmolAskConfig({ ...smolAskConfig, choices: newChoices });
-            }}
+            placeholder={t`ACTION: BUY, SELL, LEND, BORROW`}
+            value='SELL'
+            disabled={true}
           />
         </div>
         <div key={2} className="flex items-center space-x-2 text-sm">
           <Input
-            placeholder={t`CHAINS: ETH, MATIC`}
-            value={smolAskConfig.choices[2]}
-            onChange={(event) => {
-              const newChoices = [...smolAskConfig.choices];
-              newChoices[2] = event.target.value;
-              // @ts-ignore
-              setSmolAskConfig({ ...smolAskConfig, choices: newChoices });
-            }}
+            placeholder={t`SELL ASSETS: ERC20, NFT`}
+            value='MATIC'
+            disabled={true}
           />
         </div>
         <div key={3} className="flex items-center space-x-2 text-sm">
           <Input
-            placeholder={t`CONDITION: TTL, @LENS, MYFOLLOWERS`}
-            value={smolAskConfig.choices[3]}
+            placeholder={t`AMOUNT`}
+            value={smolAskConfig.choices[1]}
             onChange={(event) => {
-              const newChoices = [...smolAskConfig.choices];
-              newChoices[3] = event.target.value;
-              // @ts-ignore
-              setSmolAskConfig({ ...smolAskConfig, choices: newChoices });
+              const choices = [smolAskConfig.choices[0], event.target.value];
+              setSmolAskConfig({ ...smolAskConfig, choices });
             }}
+          />
+        </div>
+        <div key={4} className="flex items-center space-x-2 text-sm">
+          <Input
+            placeholder={t`BUY ASSETS: ERC20, NFT`}
+            value='USDC'
+            disabled={true}
+          />
+        </div>
+        <div key={5} className="flex items-center space-x-2 text-sm">
+          <Input
+            placeholder={t`CONDITION: TTL, @LENS, MYFOLLOWERS`}
+            // value=
+            disabled={true}
           />
         </div>
       </div>

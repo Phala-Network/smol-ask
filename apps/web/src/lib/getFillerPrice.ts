@@ -6,7 +6,7 @@ export async function getFillerPrice(): Promise<number> {
     {
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${devPortalKey}`,
+        Authorization: `Bearer ${devPortalKey}`
       }
     }
   );

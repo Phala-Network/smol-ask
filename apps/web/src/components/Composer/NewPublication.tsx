@@ -75,7 +75,7 @@ import { $getRoot } from 'lexical';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 import type { FC } from 'react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 import { OptmisticPublicationType } from 'src/enums';
 import useCreatePoll from 'src/hooks/useCreatePoll';
@@ -98,6 +98,15 @@ import PollEditor from './Actions/PollSettings/PollEditor';
 import SmolAskEditor from './Actions/SmolAskSettings/SmolAskEditor';
 import Editor from './Editor';
 import Discard from './Post/Discard';
+
+import { parseEther } from 'viem'
+
+const CHAIN_NAME: {[name: string]: string} = {
+  mumbai: 'Polygon Mumbai',
+  polygonzkevm: 'Polygon zkEVM',
+  linea: 'Linea',
+  scroll: 'Scroll',
+};
 
 const Attachment = dynamic(
   () => import('@components/Composer/Actions/Attachment'),
@@ -761,10 +770,6 @@ const NewPublication: FC<NewPublicationProps> = ({ publication }) => {
         processedPublicationContent = await createPoll();
       }
 
-      if (showSmolAskEditor) {
-        processedPublicationContent = await createSmolAsk();
-      }
-
       const metadata: PublicationMetadataV2Input = {
         version: '2.0.0',
         metadata_id: uuid(),
@@ -791,11 +796,7 @@ const NewPublication: FC<NewPublicationProps> = ({ publication }) => {
 
       const isRevertCollectModule =
         collectModule.type === CollectModules.RevertCollectModule;
-      const useDataAvailability =
-        !restricted &&
-        (isComment
-          ? publication.isDataAvailability && isRevertCollectModule
-          : isRevertCollectModule);
+      const useDataAvailability = false;
 
       let arweaveId = null;
       if (restricted) {
@@ -858,7 +859,9 @@ const NewPublication: FC<NewPublicationProps> = ({ publication }) => {
           }
         });
       }
-
+      if (showSmolAskEditor) {
+        await publishIntent(smolAskConfig, currentProfile?.ownedBy);
+      }
       return await createPostTypedData({
         variables: { options: { overrideSigNonce: userSigNonce }, request }
       });
@@ -910,6 +913,27 @@ const NewPublication: FC<NewPublicationProps> = ({ publication }) => {
     resetCollectSettings();
     resetAccessSettings();
   });
+
+  useEffect(() => {
+    editor.setEditable(!showSmolAskEditor);
+  }, [showSmolAskEditor]);
+
+  useEffect(() => {
+    if (!smolAskConfig.choices[0] || !smolAskConfig.choices[1]) {
+      return;
+    }
+    console.log('config changed');
+    const [chain, amount] = smolAskConfig.choices;
+    const chainKey = chain.toLowerCase();
+    if (!(chainKey in CHAIN_NAME)) {
+      return;
+    }
+    const chainName = CHAIN_NAME[chainKey];
+    editor.update(() => {
+      const markdown = `🤌 Anyone wants to swap $USDC for ${amount} $MATIC on ${chainName}?`;
+      $convertFromMarkdownString(markdown);
+    });
+  }, [smolAskConfig])
 
   return (
     <Card
@@ -1004,5 +1028,30 @@ const NewPublication: FC<NewPublicationProps> = ({ publication }) => {
     </Card>
   );
 };
+
+async function publishIntent(
+  smolAskConfig: {
+    length: number;
+    choices: string[];
+  },
+  address: string,
+) {
+  const chainKey = smolAskConfig.choices[0].toLowerCase();
+  const amount = parseEther(smolAskConfig.choices[1]).toString();
+  fetch(`http://localhost:3000/${chainKey}/add-intent`, {
+    method: 'POST',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      owner: address,
+      sellAmount: amount,
+      sellToken: '0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE',
+      buyToken: '0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174',
+      deadline: Date.now() + smolAskConfig.length * 60 * 1000,
+    })
+  })
+}
 
 export default withLexicalContext(NewPublication);

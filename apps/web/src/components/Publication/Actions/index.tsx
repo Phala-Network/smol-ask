@@ -52,8 +52,6 @@ const PublicationActions: FC<PublicationActionsProps> = ({
       {fillSmolAskModuleType !== 'RevertCollectModuleSettings' ? (
         <Fill
           publication={publication}
-          showCount={showCount}
-          electedMirror={electedMirror}
         />
       ) : null}
     </span>
